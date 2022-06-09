@@ -11,6 +11,10 @@ Too much usage of this bot can get your acount banned! [Lichess Terms of Service
 - [Python API for Stockfish](https://pypi.org/project/stockfish/): Stockfish's python API.
 
 ## 💻 Usage
-Enter your Lichess credentials in the dedicated place. Once you run the program it will create a webdriver instance, request lichess website and sign in using your credentials. Once the page is fully loaded a prompt will appear. By pressing a key a bullet game will be started. Once the board appears, a second prompt lets you start the game. From now on the moves are made by the bot until the match is over.
+1. *Make sure to activate [Input moves with keyboard] from Preferences/Game Behavior*
+2. Enter your Lichess credentials in the dedicated place. 
+3. Once you run the program it will create a webdriver instance, request lichess website and sign in using your credentials. 
+4. Wait for the page to be fully loaded. A prompt will appear. By pressing a key a bullet game will be started. 
+5. A second prompt lets you start the game. From now on the moves are made by the bot until the match is over.
 
 ![](Animation.gif)
