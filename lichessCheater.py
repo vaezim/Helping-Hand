@@ -98,7 +98,7 @@ while not board.is_checkmate():
 	print(str(ceil(MOVE_NUM/2)) + '. ' + UCI.uci())
 	myMove = stockfish.get_best_move_time(round(random.random()*2000)) # random time from [0,2]s
 	stockfish.make_moves_from_current_position([myMove])
-	print(str(ceil((MOVE_NUM+1)/2)) + '. ' + UCI.uci())
+	print(str(ceil((MOVE_NUM+1)/2)) + '. ' + myMove)
 	board.push_uci(myMove)
 	move_handle.clear()
 	move_handle.send_keys(myMove)
