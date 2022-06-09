@@ -13,4 +13,4 @@ Too much usage of this bot can get your acount banned! [Lichess Terms of Service
 ## 💻 Usage
 Enter your Lichess credentials in the dedicated place. Once you run the program it will create a webdriver instance, request lichess website and sign in using your credentials. Once the page is fully loaded a prompt will appear. By pressing a key a bullet game will be started. Once the board appears, a second prompt lets you start the game. From now on the moves are made by the bot until the match is over.
 
-![App Demo]([https://i.imgur.com/9uahejb.gif](https://imgur.com/a/cBxb6ef))
+![](Animation.gif)
