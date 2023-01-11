@@ -2,7 +2,7 @@
 [Lichess](https://lichess.org/) is an open-source online chess platform. This program signs in to your lichess account, picks a time control, and beats the opponent with the best engine moves.
 
 ## ⚠️ Disclaimer!
-Too much usage of this bot can get your acount banned! [Lichess Terms of Service](https://lichess.org/terms-of-service)
+Excessive usage of this bot can get your acount banned! [Lichess Terms of Service](https://lichess.org/terms-of-service)
 
 ## 💿 Dependencies
 - [Selenium](https://www.selenium.dev/): Offers remote control of webdrivers for website testing and automation. This [link](https://selenium-python.readthedocs.io/) provides a great documentation on how to use selenium in Python.
