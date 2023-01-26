@@ -17,4 +17,4 @@ Excessive usage of this bot can get your acount banned! [Lichess Terms of Servic
 4. Wait for the page to be fully loaded. A prompt will appear. By pressing a key a bullet game will be started. 
 5. A second prompt lets you start the game. From now on the moves are made by the bot until the match is over.
 
-![](Animation.gif)
+![](lichess/Animation.gif)
