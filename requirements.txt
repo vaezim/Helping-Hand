@@ -1,0 +1,3 @@
+chess==1.9.4
+selenium==4.8.0
+stockfish==3.28.0
