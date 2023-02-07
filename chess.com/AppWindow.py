@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5 import QtWidgets, QtCore, QtGui, QtSvg
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
 from PyQt5.QtWidgets import QProgressBar, QLabel
 import sys
@@ -40,6 +40,17 @@ class MainWindow(QtWidgets.QMainWindow):
         # add an evalbar and a text label
         self.Evalbar()
         self.EvalLabel()
+        self.BoardSVG()
+        self.BoardSVG(replace=True)
+
+    def BoardSVG(self, filename="empty_board.svg", replace=False):
+        if replace:
+            self.board.close()
+            self.frame.removeWidget(self.board)
+        self.board = QtSvg.QSvgWidget(filename, self.frame)
+        self.board.setGeometry(QtCore.QRect(QtCore.QPoint(round(0.2*self.width), round(0.05*self.height)+100), 
+                               QtCore.QPoint(round(0.2*self.width)+600, round(0.05*self.height)+700)))
+        self.board.show()
 
     def Evalbar(self):
         # create a vertical progress bar
@@ -53,16 +64,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # black & white chess style eval bar
         CHESS_STYLE = """
-            QProgressBar{
+            QProgressBar {
                 border: 2px solid grey;
                 text-align: center;
                 background-color: #404040;
             }
-
             QProgressBar::chunk {
                 background-color: white;
-            }
-            """
+            } """
         self.bar.setStyleSheet(CHESS_STYLE)
 
     def EvalLabel(self):
@@ -90,5 +99,6 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
+
     sys.exit(app.exec_())
     
