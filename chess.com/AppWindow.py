@@ -1,7 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui, QtSvg
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
-from PyQt5.QtWidgets import QProgressBar, QLabel
-import sys
+from PyQt5.QtWidgets import QProgressBar, QLabel, QPushButton
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -37,22 +36,30 @@ class MainWindow(QtWidgets.QMainWindow):
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
 
-        # add an evalbar and a text label
-        self.Evalbar()
+        # frame components
+        self.EvalBar()
         self.EvalLabel()
         self.BoardSVG()
-        self.BoardSVG(replace=True)
+        self.BestMoveButton()
 
+    def BestMoveButton(self):
+        self.button = QPushButton('Show Best Move!', self.frame)
+        self.button.setGeometry(QtCore.QRect(QtCore.QPoint(round(0.2*self.width)+480,round(0.05*self.height)+40), 
+                                QtCore.QPoint(round(0.2*self.width)+600,round(0.05*self.height)+90)))
+        Font = QtGui.QFont("Helvetica", 10)
+        Font.setBold(True)
+        self.button.setFont(Font)
+        
     def BoardSVG(self, filename="empty_board.svg", replace=False):
         if replace:
             self.board.close()
-            self.frame.removeWidget(self.board)
         self.board = QtSvg.QSvgWidget(filename, self.frame)
-        self.board.setGeometry(QtCore.QRect(QtCore.QPoint(round(0.2*self.width), round(0.05*self.height)+100), 
-                               QtCore.QPoint(round(0.2*self.width)+600, round(0.05*self.height)+700)))
+        self.board.setGeometry(
+            QtCore.QRect(QtCore.QPoint(round(0.2*self.width), round(0.05*self.height)+100), 
+                         QtCore.QPoint(round(0.2*self.width)+600, round(0.05*self.height)+700)))
         self.board.show()
 
-    def Evalbar(self):
+    def EvalBar(self):
         # create a vertical progress bar
         self.bar = QProgressBar(self.frame)
         self.bar.setGeometry(
@@ -77,7 +84,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def EvalLabel(self):
         self.label = QLabel("0.0", self.frame)
         self.label.move(round(0.05*self.width)+60, round(0.05*self.height))
-
+        self.label.setGeometry(
+                QtCore.QRect(QtCore.QPoint(round(0.05*self.width)+60, round(0.05*self.height)), 
+                             QtCore.QPoint(round(0.05*self.width)+200, round(0.05*self.height)+50)))
         # set Font
         Font = QtGui.QFont("Helvetica", 25)
         Font.setBold(True)
@@ -87,7 +96,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # change the label text
         self.label.setText(str(eval_num))
         # change the bar
-        pass
+        self.bar.setValue(round(50+(eval_num/8*50)))
 
     def MainWindowScreenPosition(self):
         screen = QDesktopWidget().screenGeometry()
@@ -96,6 +105,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 if __name__ == "__main__":
+    import sys
+
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
