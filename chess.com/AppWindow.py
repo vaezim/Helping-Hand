@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui, QtSvg
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
 from PyQt5.QtWidgets import QProgressBar, QLabel, QPushButton
+from winUpdateThread import UpdateThread
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -21,15 +22,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setToolTipDuration(0)
         self.setAutoFillBackground(False)
         self.setAcceptDrops(True)
-        centralwidget = QtWidgets.QWidget()
-        centralwidget.setObjectName("centralwidget")
-        self.setCentralWidget(centralwidget)
 
         # set the position of main window on the screen
         self.MainWindowScreenPosition()
 
         # main frame
-        self.frame = QtWidgets.QFrame(centralwidget)
+        self.frame = QtWidgets.QFrame(self)
         self.frame.setGeometry(QtCore.QRect(QtCore.QPoint(0, 0), QtCore.QPoint(self.width, self.height)))
         self.frame.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -42,6 +40,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.BoardSVG()
         self.BestMoveButton()
 
+        # Eval bar update thread
+        self.evalThread = UpdateThread()
+        self.evalThread.start()
+        self.evalThread.evalSignal.connect(self.changeEval)
+
+        # Board SVG update thread
+        self.boardSvgThread = UpdateThread()
+        self.boardSvgThread.start()
+        self.boardSvgThread.boardSignal.connect(self.boardSvg.load)
+
     def BestMoveButton(self):
         self.button = QPushButton('Show Best Move!', self.frame)
         self.button.setGeometry(QtCore.QRect(QtCore.QPoint(round(0.2*self.width)+480,round(0.05*self.height)+40), 
@@ -50,14 +58,13 @@ class MainWindow(QtWidgets.QMainWindow):
         Font.setBold(True)
         self.button.setFont(Font)
         
-    def BoardSVG(self, filename="empty_board.svg", replace=False):
-        if replace:
-            self.board.close()
-        self.board = QtSvg.QSvgWidget(filename, self.frame)
-        self.board.setGeometry(
+    def BoardSVG(self):
+        filename = "empty_board.svg"
+        self.boardSvg = QtSvg.QSvgWidget(filename, self.frame)
+        self.boardSvg.setGeometry(
             QtCore.QRect(QtCore.QPoint(round(0.2*self.width), round(0.05*self.height)+100), 
                          QtCore.QPoint(round(0.2*self.width)+600, round(0.05*self.height)+700)))
-        self.board.show()
+        self.boardSvg.show()
 
     def EvalBar(self):
         # create a vertical progress bar
@@ -96,12 +103,18 @@ class MainWindow(QtWidgets.QMainWindow):
         # change the label text
         self.label.setText(str(eval_num))
         # change the bar
-        self.bar.setValue(round(50+(eval_num/8*50)))
+        if 50+(eval_num/8*50) > 100:
+            val = 100
+        elif 50+(eval_num/8*50) < 0:
+            val = 0
+        else:
+            val = round(50+(eval_num/8*50))
+        self.bar.setValue(val)
 
     def MainWindowScreenPosition(self):
         screen = QDesktopWidget().screenGeometry()
         W, H = screen.width(), screen.height()
-        self.move(W-round(1.05*self.width), round(0.05*self.height))
+        self.move(W-self.width, 0)
 
 
 if __name__ == "__main__":
