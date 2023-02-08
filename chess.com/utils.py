@@ -15,7 +15,7 @@ def find_by_css_selector(driver, css_selector):
 
 # wait for <wait> seconds until an element becomes available
 # change wait based on the time control of the game
-def find_by_css_selector_persist(driver, css_selector, wait=0.2):
+def find_by_css_selector_persist(driver, css_selector, wait=0.3):
     element = find_by_css_selector(driver, css_selector)
     while not element:
         sleep(wait)
@@ -23,15 +23,17 @@ def find_by_css_selector_persist(driver, css_selector, wait=0.2):
     return element
 
 def createSVGfromBoard(board, best_move=None):
-    if not move:
+    OutputFilename = "board.svg"
+    if not best_move:
         svg = chess.svg.board(board)
     else:
         sq1, sq2 = best_move[0:2], best_move[2:]
         svg = chess.svg.board(board,\
             arrows=[chess.svg.Arrow(square2num(sq1),\
                                     square2num(sq2), color="blue")])
-    with open("board.svg", 'w') as file:
+    with open(OutputFilename, 'w') as file:
         file.write(svg)
+    return OutputFilename
 
 def square2num(square):
     col, row = square[0].upper(), square[1]
