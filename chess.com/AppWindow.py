@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui, QtSvg
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
 from PyQt5.QtWidgets import QProgressBar, QLabel, QPushButton
 from winUpdateThread import UpdateThread
+import utils
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -57,6 +58,7 @@ class MainWindow(QtWidgets.QMainWindow):
         Font = QtGui.QFont("Helvetica", 10)
         Font.setBold(True)
         self.button.setFont(Font)
+        self.button.clicked.connect(self.buttonEvent)
         
     def BoardSVG(self):
         filename = "empty_board.svg"
@@ -115,6 +117,15 @@ class MainWindow(QtWidgets.QMainWindow):
         screen = QDesktopWidget().screenGeometry()
         W, H = screen.width(), screen.height()
         self.move(W-self.width, 0)
+
+    def setChessComponents(self, board, stockfish):
+        self.stockfish = stockfish
+        self.board = board
+
+    def buttonEvent(self):
+        best_move = self.stockfish.get_best_move_time(800)
+        OutputFilename = utils.createSVGfromBoard(self.board, best_move)
+        self.boardSvg.load(OutputFilename)
 
 
 if __name__ == "__main__":
