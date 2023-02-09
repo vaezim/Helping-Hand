@@ -1,6 +1,5 @@
 to_do*
 *pycache*
 *.log
-/stockfish*
 localTest.py
 board.svg
