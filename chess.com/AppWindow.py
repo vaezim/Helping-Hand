@@ -61,7 +61,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.button.clicked.connect(self.buttonEvent)
         
     def BoardSVG(self):
-        filename = "empty_board.svg"
+        filename = "svg/empty_board.svg"
         self.boardSvg = QtSvg.QSvgWidget(filename, self.frame)
         self.boardSvg.setGeometry(
             QtCore.QRect(QtCore.QPoint(round(0.2*self.width), round(0.05*self.height)+100), 

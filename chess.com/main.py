@@ -14,7 +14,8 @@ from threading import Thread
 
 
 # create a Firefox geckodriver
-driver = webdriver.Firefox()
+GECKODRIVER_PATH = utils.getGeckodriverPath()
+driver = webdriver.Firefox(executable_path=GECKODRIVER_PATH)
 driver.get("https://www.chess.com")
 
 # create App window
@@ -27,7 +28,7 @@ window.show()
 ENGINE_PATH = utils.getStockfishEnginePath()
 stockfish = Stockfish(path=ENGINE_PATH, depth=8)
 stockfish.update_engine_parameters({"Hash": 1024, "Minimum Thinking Time": 100})
-stockfish.set_elo_rating(1900)
+stockfish.set_elo_rating(2000)
 # creating a board from the chess library
 board = chess.Board()
 # making them accessible from the window
