@@ -1,59 +1,73 @@
-# Selenium webdriver
+# Selenium
 from selenium import webdriver
-# Chess engine
+# GUI
+from PyQt5.QtWidgets import QApplication
+from AppWindow import MainWindow
+# Chess utilities
 from stockfish import Stockfish
 import chess
 # Extra functions
-from utils import find_by_css_selector, find_by_css_selector_persist
 from math import ceil
+import utils
+import sys
+from threading import Thread
 
 
 # create a Firefox geckodriver
 driver = webdriver.Firefox()
 driver.get("https://www.chess.com")
 
-# using stockfish engine
-ENGINE_PATH = r"../stockfish-ubuntu-20.04-x86-64"
-stockfish = Stockfish(path=ENGINE_PATH, depth=10)
-stockfish.update_engine_parameters({"Hash": 2048, "Minimum Thinking Time": 100})
-stockfish.set_elo_rating(2000)
+# create App window
+app = QApplication(sys.argv)
+global window
+window = MainWindow()
+window.show()
 
+# using stockfish engine
+ENGINE_PATH = utils.getStockfishEnginePath()
+stockfish = Stockfish(path=ENGINE_PATH, depth=8)
+stockfish.update_engine_parameters({"Hash": 1024, "Minimum Thinking Time": 100})
+stockfish.set_elo_rating(1900)
 # creating a board from the chess library
 board = chess.Board()
+# making them accessible from the window
+window.setChessComponents(board, stockfish)
 
-# wait for the user to login and start a new game
-######## Replace with GUI ########
-input("[*] Login and start a new game, then press any key to continue: ")
-
-# detect the color of the player
-PLAYER_COLOR = None
-white_king = find_by_css_selector(driver, "div[class=\"piece wk square-51\"]")
-black_king = find_by_css_selector(driver, "div[class=\"piece bk square-58\"]")
-if white_king.location['y'] > black_king.location['y']:
-    PLAYER_COLOR = 'W'
-else:
-    PLAYER_COLOR = 'B'
-
-ENOUGH = False
-while not ENOUGH:
-    # counts the total moves played by both players (e4=1 & e5=2)
+def SeleniumFunction():
     MOVE_NUM = 1
+
+    # detect the color of the player
+    PLAYER_COLOR = None
+    white_king = utils.find_by_css_selector_persist(driver, "div[class=\"piece wk square-51\"]", wait=5)
+    black_king = utils.find_by_css_selector_persist(driver, "div[class=\"piece bk square-58\"]", wait=5)
+    if white_king.location['y'] > black_king.location['y']:
+        PLAYER_COLOR = 'W'
+    else:
+        PLAYER_COLOR = 'B'
 
     while True:
         # next move's css
         css_selector = f"div[data-ply=\"{MOVE_NUM}\"]"
 
         # wait for the player to make his move
-        move = find_by_css_selector_persist(driver, css_selector).text
+        move = utils.find_by_css_selector_persist(driver, css_selector, wait=0.3).text
 
         # add the move to the board and stockfish engine
-        UCI = board.push_san(move)
+        try:
+            UCI = board.push_san(move)
+        except:
+            print("Illegal San, try again!")
+            continue
         stockfish.make_moves_from_current_position([UCI.uci()])
-        # get the best engine move
-        print(stockfish.get_evaluation()["value"]/100)
-        topMove = stockfish.get_best_move_time(3000)
+        evaluation = stockfish.get_evaluation()["value"]/100
+
+        # generate board SVG and update gui window
+        OutputFilename = utils.createSVGfromBoard(board)
+        window.evalThread.udpateEval(evaluation)
+        window.boardSvgThread.updateBoard(OutputFilename)
+        
         MOVE_NUM += 1
 
-        ######## Replace with GUI ########
-        print(f"{ceil(MOVE_NUM/2)}. {move} (top move = {topMove})")
-        
+selenium_thread = Thread(target=SeleniumFunction)
+selenium_thread.start()
+sys.exit(app.exec_())

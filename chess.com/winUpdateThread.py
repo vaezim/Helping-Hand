@@ -2,7 +2,7 @@ from PyQt5.QtCore import QThread, pyqtSignal
 
 
 class UpdateThread(QThread):
-    evalSignal = pyqtSignal(float)
+    evalSignal = pyqtSignal(dict)
     boardSignal = pyqtSignal(str)
 
     def udpateEval(self, new_eval):
