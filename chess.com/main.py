@@ -59,7 +59,7 @@ def SeleniumFunction():
             print("Illegal San, try again!")
             continue
         stockfish.make_moves_from_current_position([UCI.uci()])
-        evaluation = stockfish.get_evaluation()["value"]/100
+        evaluation = stockfish.get_evaluation()
 
         # generate board SVG and update gui window
         OutputFilename = utils.createSVGfromBoard(board)
