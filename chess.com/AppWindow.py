@@ -101,17 +101,28 @@ class MainWindow(QtWidgets.QMainWindow):
         Font.setBold(True)
         self.label.setFont(Font)
 
-    def changeEval(self, eval_num):
-        # change the label text
-        self.label.setText(str(eval_num))
-        # change the bar
-        if 50+(eval_num/8*50) > 100:
-            val = 100
-        elif 50+(eval_num/8*50) < 0:
-            val = 0
-        else:
-            val = round(50+(eval_num/8*50))
-        self.bar.setValue(val)
+    def changeEval(self, eval_dict):
+        eval_value = eval_dict["value"]
+        if eval_dict["type"] == "mate":
+            # change the label text
+            self.label.setText(f"#{eval_value}")
+            if eval_value > 0:
+                self.bar.setValue(100)
+            else:
+                self.bar.setValue(0)
+                
+        else: # type == "cp"
+            eval_num = eval_value/100
+            # change the label text
+            self.label.setText(str(eval_num))
+            # change the bar
+            if 50+(eval_num/8*50) > 100:
+                val = 100
+            elif 50+(eval_num/8*50) < 0:
+                val = 0
+            else:
+                val = round(50+(eval_num/8*50))
+            self.bar.setValue(val)
 
     def MainWindowScreenPosition(self):
         screen = QDesktopWidget().screenGeometry()
