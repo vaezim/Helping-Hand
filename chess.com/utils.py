@@ -40,7 +40,7 @@ def square2num(square):
     return (int(row)-1)*8 + (ord(col)-ord('A'))
 
 def getStockfishEnginePath():
-    PATH = r"../dependancies/stockfish/"
+    PATH = r"../dependencies/stockfish/"
     os_name = os.name
     if os_name == "nt": # windows
         PATH += r"stockfish_15_x64_popcnt.exe"
@@ -49,7 +49,7 @@ def getStockfishEnginePath():
     return PATH
     
 def getGeckodriverPath():
-    PATH = r"../dependancies/geckodrivers/"
+    PATH = r"../dependencies/geckodrivers/"
     os_name = os.name
     if os_name == "nt": # windows
         PATH = r"geckodriver.exe"
