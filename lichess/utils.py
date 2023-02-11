@@ -40,3 +40,8 @@ def getGeckodriverPath():
         PATH = r"geckodriver"
     return PATH
     
+def extractLastMove(moves_text):
+    lastMove = moves_text.strip().split("\n")[-1]
+    if "victorious" in lastMove:
+        return 0
+    return lastMove
