@@ -24,7 +24,7 @@ This application was for learning purposes only! Excessive usage of this bot can
 1. Activate **[Input moves with keyboard]** from Preferences/Game Behavior.
 2. Enter your Lichess credentials in the dedicated place in the source file. 
 3. Once you run the program it will create a webdriver instance, request lichess website and sign in using your credentials. 
-4. Wait for the page to be fully loaded. A prompt will appear. By pressing a key a bullet game will be started. 
-5. A second prompt lets you start the game. From now on the moves are made by the bot until the match is over.
+4. Select a time control.
+5. From now on the moves are made by the bot until the match is over.
 
 ![](lichess/Animation.gif)
