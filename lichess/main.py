@@ -35,8 +35,8 @@ signin_button.click()
 # Credentials
 username = driver.find_element(By.ID, "form3-username")
 password = driver.find_element(By.ID, "form3-password")
-username.send_keys("AlirezaFriooozja") # edit
-password.send_keys("qweasd19982012") # edit
+username.send_keys("Username") # edit
+password.send_keys("Password") # edit
 utils.find_by_css_selector(driver, \
         "button[class=\"submit button\"]").click()
 
