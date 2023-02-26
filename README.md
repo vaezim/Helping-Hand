@@ -15,7 +15,7 @@ This application was for learning purposes only! Excessive usage of this bot can
 1. `cd chess.com`
 2. `python3 main.py` and wait for both windows to open.
 3. login to your chess.com account and start a game.
-4. The board and the evaluation bar is constantly updated, however, you need you press the **Get Best Move** button to get a best move arrow.
+4. The board and the evaluation bar are constantly updated, however, you need you press the **Get Best Move** button to get a best move arrow.
 
 ![](chess.com/Animation.gif)
 
