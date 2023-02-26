@@ -20,7 +20,7 @@ This application was for learning purposes only! Excessive usage of this bot can
 ![](chess.com/Animation.gif)
 
 ### ♘ Lichess
-*This is a completely automated app. It logs in to your lichess accout, picks bullet time control, and beats the opponent.*
+*This is an automated app. It logs in to your lichess accout, picks bullet time control, and beats the opponent.*
 1. Activate **[Input moves with keyboard]** from Preferences/Game Behavior.
 2. Enter your Lichess credentials in the dedicated place in the source file. 
 3. Once you run the program it will create a webdriver instance, request lichess website and sign in using your credentials. 
