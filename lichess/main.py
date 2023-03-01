@@ -6,14 +6,22 @@ from selenium.webdriver.common.by import By
 from stockfish import Stockfish
 import chess
 # Extra utilities
+from random import random
 from time import sleep
 import utils
 import sys
 
 
 '''
-*** Make sure to activate [Input moves with keyboard] from Preferences/Game Behavior ***
+*** Make sure to activate [Input moves with keyboard] from Preferences/Game-Behavior ***
 '''
+
+# Credentials
+USERNAME = ""
+PASSWORD = ""
+if not len(USERNAME):
+    print("Enter your credentials in the source file!")
+    sys.exit()
 
 # Setting up Stockfish and chess.board
 ENGINE_PATH = utils.getStockfishEnginePath()
@@ -35,8 +43,8 @@ signin_button.click()
 # Credentials
 username = driver.find_element(By.ID, "form3-username")
 password = driver.find_element(By.ID, "form3-password")
-username.send_keys("Username") # edit
-password.send_keys("Password") # edit
+username.send_keys(USERNAME)
+password.send_keys(PASSWORD)
 utils.find_by_css_selector(driver, \
         "button[class=\"submit button\"]").click()
 
@@ -68,13 +76,16 @@ while not board.is_checkmate():
     # User's move (uci)
     myMove = stockfish.get_best_move_time()
     move_handle.clear()
-    move_handle.send_keys(myMove)
+    sleep(0.25)
+    move_handle.send_keys(myMove[0:2])
+    sleep(0.25)
+    move_handle.send_keys(myMove[2:])
     stockfish.make_moves_from_current_position([myMove])
     board.push_uci(myMove)
 
     # Opponent's move (san)
     while True:
-        sleep(0.5)
+        sleep(random()*5) # wait for [0-5] seconds
         moves_text = utils.find_by_css_selector_persist(driver, "l4x").text
         oppMove = utils.extractLastMove(moves_text)
         if oppMove == 0:
@@ -82,9 +93,7 @@ while not board.is_checkmate():
             sys.exit()
         try:
             UCI = board.push_san(oppMove)
+            stockfish.make_moves_from_current_position([UCI.uci()])
             break;
         except:
             continue
-
-    stockfish.make_moves_from_current_position([UCI.uci()])
-    

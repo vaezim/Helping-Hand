@@ -45,3 +45,4 @@ def extractLastMove(moves_text):
     if "victorious" in lastMove:
         return 0
     return lastMove
+    
