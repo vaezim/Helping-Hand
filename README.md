@@ -15,12 +15,12 @@ This application was for learning purposes only! Excessive usage of this bot can
 1. `cd chess.com`
 2. `python3 main.py` and wait for both windows to open.
 3. login to your chess.com account and start a game.
-4. The board and the evaluation bar is updated constantly, however, you need you press the **Get Best Move** button to get a best move arrow.
+4. The board and the evaluation bar are constantly updated, however, you need you press the **Get Best Move** button to get a best move arrow.
 
 ![](chess.com/Animation.gif)
 
 ### ♘ Lichess
-*This is a completely automated app. It logs in to your lichess accout, picks bullet time control, and beats the opponent.*
+*This is an automated app. It logs in to your lichess accout, picks bullet time control, and beats the opponent.*
 1. Activate **[Input moves with keyboard]** from Preferences/Game Behavior.
 2. Enter your Lichess credentials in the dedicated place in the source file. 
 3. Once you run the program it will create a webdriver instance, request lichess website and sign in using your credentials. 
