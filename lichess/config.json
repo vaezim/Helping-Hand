@@ -1,0 +1,12 @@
+{
+    "account": {
+        "username": "",
+        "password": ""
+    },
+    "engine": {
+        "elo": 2000,
+        "depth": 8,
+        "hash": 1024,
+        "max_time": 100
+    }
+}

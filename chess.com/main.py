@@ -11,7 +11,10 @@ from math import ceil
 import utils
 import sys
 from threading import Thread
+import json
 
+with open('config.json') as config_file:
+data = json.load(config_file)
 
 # create a Firefox geckodriver
 GECKODRIVER_PATH = utils.getGeckodriverPath()
@@ -26,9 +29,9 @@ window.show()
 
 # using stockfish engine
 ENGINE_PATH = utils.getStockfishEnginePath()
-stockfish = Stockfish(path=ENGINE_PATH, depth=8)
-stockfish.update_engine_parameters({"Hash": 1024, "Minimum Thinking Time": 100})
-stockfish.set_elo_rating(2000)
+stockfish = Stockfish(path=ENGINE_PATH, depth=data["engine"]["depth"])
+stockfish.update_engine_parameters({"Hash": data["engine"]["hash"], "Minimum Thinking Time": 20})
+stockfish.set_elo_rating(data["engine"]["elo"])
 # creating a board from the chess library
 board = chess.Board()
 # making them accessible from the window
@@ -50,9 +53,10 @@ def SeleniumFunction():
     while True:
         # next move's css
         css_selector = f"div[data-ply=\"{MOVE_NUM}\"]"
-
+        
+        # checks for your turn or not
         if (board.turn == chess.WHITE and PLAYER_COLOR == 'W') or (board.turn == chess.BLACK and PLAYER_COLOR == 'B'):
-            window.buttonEvent()
+            window.doEvaluation()
 
         # wait for the player to make his move
         move = utils.find_by_css_selector_persist(driver, css_selector, wait=0.3).text
