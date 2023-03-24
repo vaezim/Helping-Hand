@@ -35,6 +35,7 @@ board = chess.Board()
 window.setChessComponents(board, stockfish)
 
 def SeleniumFunction():
+    print("Script's starting...")
     MOVE_NUM = 1
 
     # detect the color of the player
@@ -50,6 +51,9 @@ def SeleniumFunction():
         # next move's css
         css_selector = f"div[data-ply=\"{MOVE_NUM}\"]"
 
+        if (board.turn == chess.WHITE and PLAYER_COLOR == 'W') or (board.turn == chess.BLACK and PLAYER_COLOR == 'B'):
+            window.buttonEvent()
+
         # wait for the player to make his move
         move = utils.find_by_css_selector_persist(driver, css_selector, wait=0.3).text
 
@@ -59,12 +63,13 @@ def SeleniumFunction():
         except:
             print("Illegal San, try again!")
             continue
+
         stockfish.make_moves_from_current_position([UCI.uci()])
         evaluation = stockfish.get_evaluation()
 
         # generate board SVG and update gui window
         OutputFilename = utils.createSVGfromBoard(board)
-        window.evalThread.udpateEval(evaluation)
+        window.evalThread.updateEval(evaluation)
         window.boardSvgThread.updateBoard(OutputFilename)
         
         MOVE_NUM += 1
