@@ -1,0 +1,13 @@
+{
+	"window": {
+		"width":800,
+		"height":800
+	},
+	"bot": {
+		"elo":2000,
+		"depth":8,
+		"move_time":800,
+		"hash":1024,
+		"min_thinking_time":100
+	}
+}

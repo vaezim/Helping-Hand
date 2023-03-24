@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Selenium
 from selenium import webdriver
 # GUI
@@ -7,7 +9,6 @@ from AppWindow import MainWindow
 from stockfish import Stockfish
 import chess
 # Extra functions
-from math import ceil
 import utils
 import sys
 from threading import Thread
@@ -35,6 +36,7 @@ board = chess.Board()
 window.setChessComponents(board, stockfish)
 
 def SeleniumFunction():
+    print("Chess.com Bot Started...")
     MOVE_NUM = 1
 
     # detect the color of the player
@@ -59,12 +61,13 @@ def SeleniumFunction():
         except:
             print("Illegal San, try again!")
             continue
+
         stockfish.make_moves_from_current_position([UCI.uci()])
         evaluation = stockfish.get_evaluation()
 
         # generate board SVG and update gui window
         OutputFilename = utils.createSVGfromBoard(board)
-        window.evalThread.udpateEval(evaluation)
+        window.evalThread.updateEval(evaluation)
         window.boardSvgThread.updateBoard(OutputFilename)
         
         MOVE_NUM += 1

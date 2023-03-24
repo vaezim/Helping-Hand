@@ -14,9 +14,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # main window setup (size etc.)
         super().__init__()
         self.setObjectName("MainWindow")
-        self.setWindowTitle("Online cheater Bot for chess.com")
+        self.setWindowTitle("Online Cheater Bot for chess.com")
         self.setEnabled(True)
-        self.resize(800, 826)
+        self.resize(self.width, self.height+26)
         self.setMinimumSize(QtCore.QSize(self.width, self.height+26))
         self.setMaximumSize(QtCore.QSize(self.width, self.height+26))
         self.setToolTip("")
@@ -52,10 +52,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.boardSvgThread.boardSignal.connect(self.boardSvg.load)
 
     def BestMoveButton(self):
-        self.button = QPushButton('Show Best Move!', self.frame)
+        self.button = QPushButton('Hint', self.frame)
         self.button.setGeometry(QtCore.QRect(QtCore.QPoint(round(0.2*self.width)+480,round(0.05*self.height)+40), 
                                 QtCore.QPoint(round(0.2*self.width)+600,round(0.05*self.height)+90)))
-        Font = QtGui.QFont("Helvetica", 10)
+        Font = QtGui.QFont("Helvetica", 12)
         Font.setBold(True)
         self.button.setFont(Font)
         self.button.clicked.connect(self.buttonEvent)

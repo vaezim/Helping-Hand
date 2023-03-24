@@ -5,7 +5,7 @@ class UpdateThread(QThread):
     evalSignal = pyqtSignal(dict)
     boardSignal = pyqtSignal(str)
 
-    def udpateEval(self, new_eval):
+    def updateEval(self, new_eval):
         self.evalSignal.emit(new_eval)
 
     def updateBoard(self, new_board):
