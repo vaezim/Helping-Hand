@@ -6,13 +6,13 @@ import utils
 import json
 
 with open('config.json') as config_file:
-data = json.load(config_file)
+    config = json.load(config_file)
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         # window size
-        self.width = data["window"]["width"]
-        self.height = data["window"]["height"]
+        self.width = config["window"]["width"]
+        self.height = config["window"]["height"]
 
         # main window setup (size etc.)
         super().__init__()
@@ -42,6 +42,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.EvalBar()
         self.EvalLabel()
         self.BoardSVG()
+        self.BestMoveButton()
 
         # Eval bar update thread
         self.evalThread = UpdateThread()
@@ -52,6 +53,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.boardSvgThread = UpdateThread()
         self.boardSvgThread.start()
         self.boardSvgThread.boardSignal.connect(self.boardSvg.load)
+
+    def BestMoveButton(self):
+        self.button = QPushButton('Hint', self.frame)
+        self.button.setGeometry(QtCore.QRect(QtCore.QPoint(round(0.2*self.width)+480,round(0.05*self.height)+40), 
+                                QtCore.QPoint(round(0.2*self.width)+600,round(0.05*self.height)+90)))
+        Font = QtGui.QFont("Helvetica", 12)
+        Font.setBold(True)
+        self.button.setFont(Font)
+        self.button.clicked.connect(self.buttonEvent)
         
     def BoardSVG(self):
         filename = "svg/empty_board.svg"
@@ -126,8 +136,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stockfish = stockfish
         self.board = board
 
-    def doEvaluation(self):
-        best_move = self.stockfish.get_best_move_time(data["engine"]["max_time"])
+    def buttonEvent(self):
+        best_move = self.stockfish.get_best_move_time(config["engine"]["max_time"])
         OutputFilename = utils.createSVGfromBoard(self.board, best_move)
         self.boardSvg.load(OutputFilename)
 

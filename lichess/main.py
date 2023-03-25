@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -13,24 +15,24 @@ import sys
 import json
 
 with open('config.json') as config_file:
-data = json.load(config_file)
+    config = json.load(config_file)
 
 '''
 *** Make sure to activate [Input moves with keyboard] from Preferences/Game-Behavior ***
 '''
 
 # Credentials
-USERNAME = data["account"]["username"]
-PASSWORD = data["account"]["password"]
+USERNAME = config["account"]["username"]
+PASSWORD = config["account"]["password"]
 if not len(USERNAME):
     print("Enter your credentials in the source file!")
     sys.exit()
 
 # Setting up Stockfish and chess.board
 ENGINE_PATH = utils.getStockfishEnginePath()
-stockfish = Stockfish(path=ENGINE_PATH, depth=data["engine"]["depth"])
-stockfish.update_engine_parameters({"Hash": data["engine"]["hash"], "Minimum Thinking Time": 20})
-stockfish.set_elo_rating(data["engine"]["elo"])
+stockfish = Stockfish(path=ENGINE_PATH, depth=config["engine"]["depth"])
+stockfish.update_engine_parameters({"Hash": config["engine"]["hash"], "Minimum Thinking Time": config["engine"]["min_time"]})
+stockfish.set_elo_rating(config["engine"]["elo"])
 board = chess.Board()
 
 # create a Firefox geckodriver
@@ -77,7 +79,7 @@ if COLOR == 'B':
 while not board.is_checkmate():
 
     # User's move (uci)
-    myMove = stockfish.get_best_move_time(data["engine"]["max_time"])
+    myMove = stockfish.get_best_move_time(config["engine"]["max_time"])
     move_handle.clear()
     sleep(0.25)
     move_handle.send_keys(myMove[0:2])

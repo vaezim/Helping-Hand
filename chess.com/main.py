@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Selenium
 from selenium import webdriver
 # GUI
@@ -7,14 +9,13 @@ from AppWindow import MainWindow
 from stockfish import Stockfish
 import chess
 # Extra functions
-from math import ceil
 import utils
 import sys
 from threading import Thread
 import json
 
 with open('config.json') as config_file:
-data = json.load(config_file)
+    config = json.load(config_file)
 
 # create a Firefox geckodriver
 GECKODRIVER_PATH = utils.getGeckodriverPath()
@@ -29,16 +30,16 @@ window.show()
 
 # using stockfish engine
 ENGINE_PATH = utils.getStockfishEnginePath()
-stockfish = Stockfish(path=ENGINE_PATH, depth=data["engine"]["depth"])
-stockfish.update_engine_parameters({"Hash": data["engine"]["hash"], "Minimum Thinking Time": 20})
-stockfish.set_elo_rating(data["engine"]["elo"])
+stockfish = Stockfish(path=ENGINE_PATH, depth=config["engine"]["depth"])
+stockfish.update_engine_parameters({"Hash": config["engine"]["hash"], "Minimum Thinking Time": config["engine"]["min_time"]})
+stockfish.set_elo_rating(config["engine"]["elo"])
 # creating a board from the chess library
 board = chess.Board()
 # making them accessible from the window
 window.setChessComponents(board, stockfish)
 
 def SeleniumFunction():
-    print("Script's starting...")
+    print("Chess.com Bot Started...")
     MOVE_NUM = 1
 
     # detect the color of the player
@@ -52,11 +53,7 @@ def SeleniumFunction():
 
     while True:
         # next move's css
-        css_selector = f"div[data-ply=\"{MOVE_NUM}\"]"
-        
-        # checks for your turn or not
-        if (board.turn == chess.WHITE and PLAYER_COLOR == 'W') or (board.turn == chess.BLACK and PLAYER_COLOR == 'B'):
-            window.doEvaluation()
+        css_selector = f"div[config-ply=\"{MOVE_NUM}\"]"
 
         # wait for the player to make his move
         move = utils.find_by_css_selector_persist(driver, css_selector, wait=0.3).text
