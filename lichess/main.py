@@ -13,7 +13,7 @@ import sys
 import json
 
 with open('config.json') as config_file:
-data = json.load(config_file)
+    data = json.load(config_file)
 
 '''
 *** Make sure to activate [Input moves with keyboard] from Preferences/Game-Behavior ***

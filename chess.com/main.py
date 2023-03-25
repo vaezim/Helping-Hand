@@ -14,7 +14,7 @@ from threading import Thread
 import json
 
 with open('config.json') as config_file:
-data = json.load(config_file)
+    data = json.load(config_file)
 
 # create a Firefox geckodriver
 GECKODRIVER_PATH = utils.getGeckodriverPath()
