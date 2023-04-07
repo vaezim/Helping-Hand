@@ -5,11 +5,14 @@ from winUpdateThread import UpdateThread
 import utils
 import json
 
+
 with open('config.json') as config_file:
     data = json.load(config_file)
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
+        self.grandId = 0
+
         # window size
         self.width = data["window"]["width"]
         self.height = data["window"]["height"]
@@ -27,7 +30,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setAutoFillBackground(False)
         self.setAcceptDrops(True)
 
-        # set the position of main window on the screen
+        # sets the position of main window on the screen
         self.MainWindowScreenPosition()
 
         # main frame
@@ -39,6 +42,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.frame.setObjectName("frame")
 
         # frame components
+        self.NewGameBoard()
         self.EvalBar()
         self.EvalLabel()
         self.BoardSVG()
@@ -52,17 +56,29 @@ class MainWindow(QtWidgets.QMainWindow):
         self.boardSvgThread = UpdateThread()
         self.boardSvgThread.start()
         self.boardSvgThread.boardSignal.connect(self.boardSvg.load)
+
+    def NewGameBoard(self):
+        self.button = QPushButton('Reset Board!', self.frame)
+        self.button.setGeometry(QtCore.QRect(QtCore.QPoint(round((0.2*self.width+480)*self.width/800),round((0.05*self.height+40)*self.height/800)), 
+                                QtCore.QPoint(round((0.2*self.width+600)*self.width/800),round((0.05*self.height+90)*self.height/800))))
+        Font = QtGui.QFont("Helvetica", 10)
+        Font.setBold(True)
+        self.button.setFont(Font)
+        self.button.clicked.connect(self.updateId)
         
+    def updateId(self):
+        self.grandId+=1
+
     def BoardSVG(self):
         filename = "svg/empty_board.svg"
         self.boardSvg = QtSvg.QSvgWidget(filename, self.frame)
         self.boardSvg.setGeometry(
-            QtCore.QRect(QtCore.QPoint(round(0.2*self.width), round(0.05*self.height)+100), 
-                         QtCore.QPoint(round(0.2*self.width)+600, round(0.05*self.height)+700)))
+            QtCore.QRect(QtCore.QPoint(round(0.2*self.width), round(0.05*self.height+(100/800)*self.height)), 
+                         QtCore.QPoint(round(0.2*self.width+(600/800)*self.width), round(0.05*self.height+(700/800)*self.height))))
         self.boardSvg.show()
 
     def EvalBar(self):
-        # create a vertical progress bar
+        # creates a vertical progress bar
         self.bar = QProgressBar(self.frame)
         self.bar.setGeometry(
             QtCore.QRect(QtCore.QPoint(round(0.05*self.width), round(0.05*self.height)), 
@@ -89,7 +105,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.label.setGeometry(
                 QtCore.QRect(QtCore.QPoint(round(0.05*self.width)+60, round(0.05*self.height)), 
                              QtCore.QPoint(round(0.05*self.width)+200, round(0.05*self.height)+50)))
-        # set Font
+        # sets font
         Font = QtGui.QFont("Helvetica", 25)
         Font.setBold(True)
         self.label.setFont(Font)
@@ -97,7 +113,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def changeEval(self, eval_dict):
         eval_value = eval_dict["value"]
         if eval_dict["type"] == "mate":
-            # change the label text
+            # changes the label text
             self.label.setText(f"#{eval_value}")
             if eval_value > 0:
                 self.bar.setValue(100)
@@ -106,9 +122,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 
         else: # type == "cp"
             eval_num = eval_value/100
-            # change the label text
+            # changes the label text
             self.label.setText(str(eval_num))
-            # change the bar
+            # changes the bar
             if 50+(eval_num/8*50) > 100:
                 val = 100
             elif 50+(eval_num/8*50) < 0:

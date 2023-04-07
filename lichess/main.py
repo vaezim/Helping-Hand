@@ -29,8 +29,12 @@ if not len(USERNAME):
 # Setting up Stockfish and chess.board
 ENGINE_PATH = utils.getStockfishEnginePath()
 stockfish = Stockfish(path=ENGINE_PATH, depth=data["engine"]["depth"])
-stockfish.update_engine_parameters({"Hash": data["engine"]["hash"], "Minimum Thinking Time": 20})
-stockfish.set_elo_rating(data["engine"]["elo"])
+stockfish.update_engine_parameters({"Hash": data["engine"]["hash"], "Threads": data["engine"]["threads"]})
+if data["engine"]["skill_level"] < 0:
+    stockfish.set_elo_rating(data["engine"]["elo"])
+else:
+    stockfish.set_skill_level(data["engine"]["skill_level"])
+# creating a board from the chess library
 board = chess.Board()
 
 # create a Firefox geckodriver
@@ -73,8 +77,8 @@ if COLOR == 'B':
     UCI = board.push_san(oppMove)
     stockfish.make_moves_from_current_position([UCI.uci()])
 
-# Play until checkmate...
-while not board.is_checkmate():
+# Play until checkmate... TODO same here as chess.com, we have to check not only for mate
+while not board.is_game_over(claim_draw=True):
 
     # User's move (uci)
     myMove = stockfish.get_best_move_time(data["engine"]["max_time"])
@@ -97,6 +101,6 @@ while not board.is_checkmate():
         try:
             UCI = board.push_san(oppMove)
             stockfish.make_moves_from_current_position([UCI.uci()])
-            break;
+            break
         except:
             continue

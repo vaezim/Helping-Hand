@@ -13,9 +13,10 @@ This application was for learning purposes only! Excessive usage of this bot can
 
 ## 💻 Usage
 ### ♟️ Chess.com
-1. Open `chess.com.bat` and wait for both windows to open.
-2. Log into your chess.com account and start a game.
-3. The board and the evaluation bar are constantly updated, and you have to wait a bit to get the best move arrow after opponent's move.
+1. Open `main.py` in the folder `chess.com` and wait for both windows to open.
+2. Log into your chess.com account.
+3. Go to Settings/Board and Pieces/Piece Notation and set it to Text
+4. The board and the evaluation bar are constantly updated, and you have to wait a bit to get the best move arrow after opponent's move.
 
 ![](chess.com/Animation.gif)
 
@@ -23,7 +24,7 @@ This application was for learning purposes only! Excessive usage of this bot can
 *This is an automated app. It logs in to your lichess accout, picks bullet time control, and beats the opponent. More customisation will be added later.*
 1. Activate **[Input moves with keyboard]** from Preferences/Game Behavior.
 2. Enter your Lichess credentials in the dedicated place in the config file *lichess/config.json*. 
-3. Once you open `lichess.bat` it will create a webdriver instance, request lichess website and sign in using your credentials. 
+3. Once you open `main.py` in the folder `lichess` it will create a webdriver instance, request lichess website and sign in using your credentials. 
 4. Select a time control.
 5. From now on the moves are made by the bot until the match is over.
 
@@ -34,6 +35,8 @@ Open the configuration file *avaible in the folders chess.com and lichess*. In i
 - **window/-**: The size of the window *chess.com only*
 - **account/-**: Put your account username and password in so the program can log in by itself *lichess only*
 - **engine/elo**: The level of the engine
+- **engine/skill_level**: The level of the engine (min=0, max=20); Ignores elo; Put a negative to use the elo level instead
 - **engine/depth**: How depth will the engine watch in the possible moves. Higher values = Slower to calculate, but won't above the max_time value.
+- **engine/threads**: How fast will it calculate; You have to put a number between 1 and the limit of your computer
 - **engine/hash**: To not lose what is already calculated and win a bit of time. It is in MB (uses Ram), and must be a power of 2 (2,4,8,16,...)
 - **engine/max_time**: The maximum time in milliseconds the engine has to calculate the move

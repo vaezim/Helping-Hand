@@ -13,8 +13,8 @@ def find_by_css_selector(driver, css_selector):
         return None
     return element
 
-# wait for <wait> seconds until an element becomes available
-# change wait based on the time control of the game
+# waits for <wait> seconds until an element becomes available
+# changes wait based on the time control of the game
 def find_by_css_selector_persist(driver, css_selector, wait=0.3):
     element = find_by_css_selector(driver, css_selector)
     while not element:

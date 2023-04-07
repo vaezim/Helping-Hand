@@ -1,11 +1,13 @@
 {
 	"window": {
-		"width": 800,
-		"height": 800
+		"width": 670,
+		"height": 670
 	},
 	"engine": {
-		"elo": 2000,
+		"elo": 1450,
+		"skill_level": -1,
 		"depth": 8,
+		"threads": 4,
 		"hash": 1024,
 		"max_time": 100
 	}
