@@ -15,11 +15,13 @@ def find_by_css_selector(driver, css_selector):
 
 # waits for <wait> seconds until an element becomes available
 # changes wait based on the time control of the game
-def find_by_css_selector_persist(driver, css_selector, wait=0.3):
+def find_by_css_selector_persist(driver, css_selector, id, window, wait=0.3):
     element = find_by_css_selector(driver, css_selector)
     while not element:
         sleep(wait)
         element = find_by_css_selector(driver, css_selector)
+        if id != window.grandId:
+            return None
     return element
 
 def createSVGfromBoard(board, best_move=None):

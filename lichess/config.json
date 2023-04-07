@@ -7,7 +7,7 @@
         "elo": 2000,
         "skill_level": -1,
         "depth": 8,
-		"threads": 2,
+		"threads": 4,
         "hash": 1024,
         "max_time": 100
     }
