@@ -57,8 +57,10 @@ def SeleniumFunction():
 
     if white_king.location['y'] > black_king.location['y']:
         PLAYER_COLOR = 'W'
+        print('You play as white.')
     else:
         PLAYER_COLOR = 'B'
+        print('You play as black.')
 
     print("Board found!")
 
@@ -83,7 +85,10 @@ def SeleniumFunction():
         try:
             UCI = window.board.push_san(move.text)
         except:
-            print("Illegal San, try again!")
+            print(f"Illegal San [{move.text}], try again!")
+            print(window.board.board_fen())
+            if id != window.grandId:
+                return startFunction()
             continue
 
         if id != window.grandId:

@@ -1,7 +1,7 @@
 {
 	"window": {
-		"width": 670,
-		"height": 670
+		"width": 700,
+		"height": 700
 	},
 	"engine": {
 		"elo": 2000,
@@ -9,6 +9,6 @@
 		"depth": 8,
 		"threads": 4,
 		"hash": 1024,
-		"max_time": 400
+		"max_time": 300
 	}
 }
