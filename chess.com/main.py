@@ -53,7 +53,7 @@ def SeleniumFunction():
 
     while True:
         # next move's css
-        css_selector = f"div[config-ply=\"{MOVE_NUM}\"]"
+        css_selector = f"div[data-ply=\"{MOVE_NUM}\"]"
 
         # wait for the player to make his move
         move = utils.find_by_css_selector_persist(driver, css_selector, wait=0.3).text
