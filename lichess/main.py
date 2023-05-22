@@ -25,7 +25,7 @@ with open('config.json') as config_file:
 USERNAME = config["account"]["username"]
 PASSWORD = config["account"]["password"]
 if not len(USERNAME):
-    print("Enter your credentials in the source file!")
+    print("Enter your credentials in <config.json> file")
     sys.exit()
 
 # Setting up Stockfish and chess.board
