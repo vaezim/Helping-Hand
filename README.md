@@ -1,4 +1,4 @@
-# 🤖 Online Chess Cheater Bot
+# 🤖 Helping Hand
 [lichess.org](https://lichess.org/) and [chess.com](https://chess.com) are the two most popular online chess platforms. This application provides the user with the top engine move and position evaluation. Once a live online game is started, it automatically pulls the played moves from the webpage's source and builds it own chess board. A local stockfish engine then analyzes the position and offers the best move to the user.
 
 ## ⚠️ Disclaimer!
